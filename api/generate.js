@@ -1,12 +1,10 @@
 // /api/generate.js
 
 export default async function handler(req, res) {
-  // Solo aceptamos POST
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Método no permitido' });
   }
 
-  // Leemos el prompt que viene del front
   const { prompt } = req.body || {};
   if (!prompt) {
     return res.status(400).json({ error: 'Falta el prompt' });
@@ -22,8 +20,8 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        // Modelo correcto
-        model: 'claude-3-5-sonnet-20240620',
+        // 👇 Cambiamos a Haiku, muy estable
+        model: 'claude-3-haiku-20240307',
         max_tokens: 1000,
         messages: [
           {
@@ -44,10 +42,9 @@ export default async function handler(req, res) {
       });
     }
 
-    // Respuesta OK al frontend
     return res.status(200).json(data);
   } catch (error) {
-    console.error('❌ Error llamando a Anthropic:', error);
+    console.error('❌ Error llamando a Anthropic (catch):', error);
     return res.status(500).json({
       error: 'Error al conectar con la IA',
     });
