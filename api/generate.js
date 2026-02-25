@@ -3,7 +3,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Método no permitido' });
   }
 
-  const { prompt } = req.body;
+  const { prompt } = req.body || {};
   if (!prompt) {
     return res.status(400).json({ error: 'Falta el prompt' });
   }
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
+        model: 'claude-3-5-sonnet-20241022',  // o el modelo que tengas disponible
         max_tokens: 1000,
         messages: [
           { role: 'user', content: prompt }
@@ -26,9 +26,9 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-    res.status(200).json(data);
+    res.status(response.status).json(data);
   } catch (error) {
-    console.error('Error con Claude:', error);
+    console.error('Error llamando a Claude:', error);
     res.status(500).json({ error: 'Error al conectar con la IA' });
   }
 }
