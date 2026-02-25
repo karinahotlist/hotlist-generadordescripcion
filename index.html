@@ -924,19 +924,6 @@ async function generateDescription() {
   document.getElementById('outputContent').classList.remove('visible');
   document.getElementById('generateBtn').disabled = true;
 
- async function generateDescription() {
-  const data = getFormData();
-
-  if (!data.nombrePuesto) {
-    alert('Por favor, introduce al menos el nombre del puesto.');
-    return;
-  }
-
-  document.getElementById('emptyState').style.display = 'none';
-  document.getElementById('loadingState').classList.add('visible');
-  document.getElementById('outputContent').classList.remove('visible');
-  document.getElementById('generateBtn').disabled = true;
-
   try {
     const response = await fetch('/api/generate', {
       method: 'POST',
